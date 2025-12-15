@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AISA – AI Startup Idea Analyzer</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* BACKGROUND */
+body {
+  background: radial-gradient(circle at top, #020617, #020617 40%, #020617);
+  color: #e5e7eb;
+  overflow: hidden;
+}
+
+/* STARS */
+.stars {
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, white, transparent),
+    radial-gradient(1px 1px at 200px 150px, white, transparent),
+    radial-gradient(1px 1px at 400px 80px, white, transparent),
+    radial-gradient(1px 1px at 600px 300px, white, transparent),
+    radial-gradient(1px 1px at 800px 200px, white, transparent),
+    radial-gradient(1px 1px at 1000px 100px, white, transparent);
+  animation: twinkle 6s infinite alternate;
+  z-index: -1;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.3; }
+  to { opacity: 0.8; }
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(90deg, #0ea5e9, #6366f1);
+  padding: 16px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.logo span {
+  background: #020617;
+  padding: 6px 12px;
+  border-radius: 50%;
+  color: #38bdf8;
+  box-shadow: 0 0 15px rgba(56,189,248,0.6);
+}
+
+.tagline {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+  height: calc(100vh - 70px);
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 300px;
+  background: rgba(2,6,23,0.92);
+  padding: 22px;
+  border-right: 1px solid #1e293b;
+  overflow-y: auto;
+}
+
+.sidebar h2 { color: #38bdf8; margin-bottom: 10px; }
+.sidebar h3 { color: #a5b4fc; margin: 16px 0 8px; }
+.sidebar p, .sidebar li {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #cbd5f5;
+}
+.sidebar ul { margin-left: 16px; }
+
+.badge {
+  margin-top: 20px;
+  background: linear-gradient(90deg,#1e293b,#020617);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 13px;
+  color: #93c5fd;
+  box-shadow: inset 0 0 10px rgba(56,189,248,0.2);
+}
+
+/* DISCLAIMER */
+.disclaimer {
+  margin-top: 18px;
+  padding: 12px;
+  border-left: 3px solid #38bdf8;
+  background: rgba(15,23,42,0.6);
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* GRAPH DEMO */
+.graph-lines {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  width: 300px;
+  height: 120px;
+  border-left: 2px solid #38bdf8;
+  border-bottom: 2px solid #38bdf8;
+}
+.graph-lines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(56,189,248,0.3), transparent);
+  animation: moveGraph 4s infinite linear;
+}
+@keyframes moveGraph {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+.main h1 { font-size: 28px; margin-bottom: 8px; }
+.subtitle { color: #94a3b8; margin-bottom: 25px; }
+
+/* CARDS */
+.card {
+  background: rgba(2,6,23,0.9);
+  padding: 22px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+  box-shadow: 0 0 25px rgba(99,102,241,0.2);
+}
+.card label { font-weight: bold; margin-bottom: 10px; display: block; }
+
+textarea {
+  width: 100%;
+  height: 140px;
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 12px;
+  color: #e5e7eb;
+  resize: none;
+}
+textarea:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56,189,248,0.4);
+}
+
+button {
+  margin-top: 15px;
+  background: linear-gradient(90deg, #38bdf8, #6366f1);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover {
+  box-shadow: 0 0 20px rgba(99,102,241,0.6);
+}
+
+/* OUTPUT */
+.output h2 { color: #a5b4fc; margin-bottom: 10px; }
+pre { white-space: pre-wrap; line-height: 1.6; }
+
+/* FOOTER SHOWCASE */
+.footer-showcase {
+  margin-top: 40px;
+  padding: 20px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, rgba(2,6,23,0.9), rgba(15,23,42,0.9));
+  box-shadow: 0 0 30px rgba(56,189,248,0.15);
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.footer-logo .circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #38bdf8, #020617);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #020617;
+  box-shadow: 0 0 20px rgba(56,189,248,0.7);
+}
+.marquee {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.marquee span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 18s linear infinite;
+  color: #93c5fd;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<header>
+  <div class="logo"><span>AI</span> AISA</div>
+  <div class="tagline">Agentic AI Startup Intelligence</div>
+</header>
+
+<div class="container">
+
+<aside class="sidebar">
+  <h2>About AISA</h2>
+  <p>AISA is an agentic AI platform that transforms raw startup ideas into strategic business intelligence.</p>
+
+  <h3>Agent Capabilities</h3>
+  <ul>
+    <li>Idea Validation</li>
+    <li>Market & Competition Analysis</li>
+    <li>SWOT & Risk Evaluation</li>
+    <li>OODA Strategic Thinking</li>
+  </ul>
+
+  <h3>Services</h3>
+  <ul>
+    <li>AI Idea Analyzer</li>
+    <li>Business Model Agent</li>
+    <li>Pitch Deck AI</li>
+    <li>Agentic Automation</li>
+  </ul>
+
+  <div class="badge">Powered by Local AI (Ollama)</div>
+
+  <div class="disclaimer">
+    This tool provides AI-generated analysis for educational and exploratory purposes only.
+    It does not guarantee business success.
+  </div>
+</aside>
+
+<main class="main">
+  <div class="graph-lines"></div>
+
+  <h1>AI Startup Idea Analyzer</h1>
+  <p class="subtitle">Enter your startup idea and receive deep AI-powered insights.</p>
+
+  <div class="card">
+    <label>💡 Your Startup Idea</label>
+    <textarea id="idea" placeholder="Describe your startup idea clearly (minimum 50 characters)..."></textarea>
+    <button onclick="analyzeIdea()">🚀 Analyze Idea</button>
+  </div>
+
+  <div class="card output">
+    <h2>📊 AI Analysis Output</h2>
+    <pre id="output">Your AI-generated analysis will appear here...</pre>
+  </div>
+
+  <div class="footer-showcase">
+    <div class="footer-logo">
+      <div class="circle">AI</div>
+      <h2>AISA – Agentic AI Startup Intelligence</h2>
+    </div>
+    <div class="marquee">
+      <span>
+        🚀 AISA • Startup Idea Analyzer • Business Model Agent • Pitch Deck AI •
+        Agentic Automation • Strategic Intelligence • OODA Mindset • Powered by Ollama •
+      </span>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+async function analyzeIdea() {
+  const idea = document.getElementById("idea").value;
+  const output = document.getElementById("output");
+  output.innerText = "⏳ Analyzing your idea...";
+
+  try {
+    const res = await fetch("http://localhost:5000/api/analyze-idea", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({idea})
+    });
+    const data = await res.json();
+    output.innerText = data.analysis || data.error;
+  } catch {
+    output.innerText = "❌ Backend not running.";
+  }
+}
+</script>
+
+</body>
+</html>
